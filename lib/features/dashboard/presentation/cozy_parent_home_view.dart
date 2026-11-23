@@ -1177,9 +1177,6 @@ class _CozyParentHomeViewState extends ConsumerState<CozyParentHomeView> {
               final doneRoutines = childTodayQuests
                   .where((a) => a.completedByMemberIds.contains(child.id))
                   .length;
-              final pendingChildRoutines = childTodayQuests
-                  .where((a) => a.pendingVerificationMemberIds.contains(child.id))
-                  .length;
               final routineStatusText = childTodayQuests.isEmpty
                   ? (isMs
                       ? '${child.stars} ★ • Belum ada rutin ditugaskan'

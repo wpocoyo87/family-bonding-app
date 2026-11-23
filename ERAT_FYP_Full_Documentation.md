@@ -27,7 +27,7 @@ In the contemporary era of pervasive digital technology, interpersonal family en
 
 Unlike conventional parental control software that relies on intrusive monitoring or rigid commercial habit trackers designed solely for individual adults, ERAT introduces an age-adaptive tripartite architecture spanning five developmental cognitive stages (Ages 1–4: Little Explorer; Ages 5–9: Happy Habit Builder; Ages 10–12: Goal Achiever; Ages 13–17: My Life My Goals; Ages 18+: Lifelong Family Bond). The system incorporates a four-pillar functional ecosystem: (1) Gamified Daily Routine Timelines with 5-checkpoint progressive Milestone Journey Maps and custom Focus Activity repetitive goal tracking; (2) Role-Adaptive Dual Spaces combining a Zero-Upward-Leak Children's Private Audio/Text Journal with an anonymous, UGC-compliant Parent Community Knowledge Hub; (3) Multi-Channel Safe Family Chat with embedded lightweight voice note transmission (AAC-LC at 64 kbps), family video/audio calling, and dining conversation prompts; and (4) an Integrated Shared Family Event Calendar that unifies household activities without calendar fragmentation. 
 
-The application was engineered following the Agile Scrum methodology across 14 academic weeks and evaluated across functional verification, performance profiling, and usability metrics under the System Usability Scale (SUS). Evaluation results demonstrated sub-200ms real-time state synchronization, complete demo-to-production database isolation, 100% test pass rates across automated unit tests and functional test suites (TC-01 through TC-08), and an overall mean SUS score of 84.5 across 24 participants (Grade A, 93rd percentile), confirming ERAT’s efficacy as a sustainable technological framework for strengthening domestic solidarity and positive behavioral routines.
+The application was engineered following the Agile Scrum methodology across 14 academic weeks and evaluated across functional verification, performance profiling, and usability metrics under the System Usability Scale (SUS). Evaluation results demonstrated sub-200ms real-time state synchronization, complete demo-to-production database isolation, 100% test pass rates across automated unit tests and functional test suites (TC-01 through TC-08), and an overall mean SUS score of 84.5 across 24 participants (Grade A+, 96th percentile), confirming ERAT’s efficacy as a sustainable technological framework for strengthening domestic solidarity and positive behavioral routines.
 
 **Keywords:** *Cross-Platform Mobile Application, Flutter, Firebase Firestore, Gamification, Habit Formation, Family Technology, Parent-Child Communication, Age-Adaptive Interaction.*
 
@@ -177,7 +177,7 @@ CHAPTER 6: CONCLUSION AND RECOMMENDATION
 
 REFERENCES (25 Academic Journal Articles in APA Style) ....................... 61
 APPENDIX A: System Usability Scale (SUS) Questionnaire and Raw Scores ........ 66
-APPENDIX B: Complete Cloud Firestore Security Rules (firestore.rules) ........ 68
+APPENDIX B: Complete Cloud Firestore Security Rules Configuration ............ 68
 ```
 
 ---
@@ -310,13 +310,11 @@ The ERAT project delivers substantial academic, societal, and engineering contri
 ### 1.6 Project Planning and Gantt Chart
 Development was executed over a 14-week academic period (15 August 2026 to 21 November 2026) organized into five sequential phases aligned with Agile Scrum sprints:
 
-<p align="left"><strong>Figure 1.1: Project Timeline and Sprint Milestones Gantt Chart across 14-Week Development Period</strong></p>
-
 <p align="center">
   <img src="./docs/figures/figure_1_1_gantt_chart.png" alt="Figure 1.1: Project Timeline and Sprint Milestones Gantt Chart" width="90%" />
 </p>
 
-*Figure 1.1: Project Timeline and Sprint Milestones Gantt Chart across 14-Week Development Period.*
+<p align="left"><strong>Figure 1.1: Project Timeline and Sprint Milestones Gantt Chart across 14-Week Development Period</strong></p>
 
 ### 1.7 Report Organization
 This project paper is organized into six comprehensive chapters in accordance with the MUST format guidelines:
@@ -336,15 +334,15 @@ This chapter reviews the theoretical literature, empirical findings, and existin
 
 ### 2.2 Theoretical Foundations
 #### 2.2.1 Technoference and Digital Ecology in Domestic Environments
-Domestic family environments represent intricate socio-technical systems where the introduction of mobile computing can either bridge geographical separation or disrupt intimate interpersonal presence (Yarosh et al., 2013). The term "technoference" conceptualizes the pervasive interruptions of everyday relationship interactions caused by digital notifications, screen absorption, and mobile multitasking (McDaniel & Radesky, 2018). Research demonstrates that parental technoference correlates with heightened behavioral tantrums in young children, as parental responsiveness is fragmented by device demands (Neely & Radesky, 2019; Radesky et al., 2014). To counteract technoference, family applications must not compete for excessive solitary screen time; instead, they must function as ambient catalysts that prompt real-world, face-to-face family bonding (Hiniker et al., 2016).
+Domestic family environments represent intricate socio-technical systems governed by ecological family systems theory (Bronfenbrenner, 1979; Yarosh et al., 2013). The term "technoference" conceptualizes the pervasive interruptions of everyday relationship interactions caused by digital notifications, screen absorption, and mobile multitasking (McDaniel & Radesky, 2018). Research demonstrates that parental technoference and passive screen immersion displace essential physical activity and active family play (Tremblay et al., 2016), correlating with heightened behavioral tantrums in young children as parental responsiveness is fragmented by device demands (Domoff et al., 2019; Radesky et al., 2014). To counteract technoference, family applications must not compete for excessive solitary screen time; instead, they must function as ambient catalysts that prompt real-world, face-to-face family bonding (Hiniker et al., 2016).
 
-#### 2.2.2 Self-Determination Theory (SDT) in Habit Formation
+#### 2.2.2 Self-Determination Theory (SDT) and Persuasive Habit Formation
 Self-Determination Theory (SDT), established by Deci and Ryan (2000), posits that sustainable human behavior is governed by the fulfillment of three basic psychological needs:
 1. **Autonomy:** The perception of personal volition, agency, and self-endorsement of one’s actions.
 2. **Competence:** The feeling of mastery, effectiveness, and progressive growth in interacting with one’s environment.
 3. **Relatedness:** The sense of belonging, mutual attachment, and feeling valued by significant others.
 
-When mobile habit applications rely entirely on extrinsic punishments (e.g., device confiscation or lockouts), autonomy is undermined, resulting in rapid behavioral extinction once external coercion ceases (Ryan & Deci, 2000). Conversely, gamification mechanics that support competence through visible skill progression and foster relatedness through shared domestic celebrations catalyze intrinsic motivation (Przybylski et al., 2010).
+In operationalizing Self-Determination Theory for digital domestic technology, Fogg (2009) posits in the Fogg Behavior Model ($B=MAP$) that target domestic behaviors occur only when motivation, ability, and a well-timed prompt converge. In ERAT, ability is maximized by decomposing complex chores into bite-sized routines, while prompts are delivered via ambient notifications and calendar cues. Furthermore, empirical evaluations of gamification confirm that game mechanics (points, badges, leaderboards, and progress journeys) significantly enhance user engagement and flow, provided the mechanics serve meaningful competence rather than manipulative lock-in (Hamari et al., 2016). When mobile habit applications rely entirely on extrinsic punishments (e.g., device confiscation or lockouts), autonomy is undermined, resulting in rapid behavioral extinction once external coercion ceases (Ryan & Deci, 2000). To ensure sustained adoption, technology must balance pragmatic utility with hedonic fulfillment, satisfying fundamental human psychological needs through joyful user experiences (Diefenbach & Hassenzahl, 2017). Conversely, gamification mechanics that support competence through visible skill progression and foster relatedness through shared domestic celebrations catalyze intrinsic motivation (Przybylski et al., 2010).
 
 #### 2.2.3 Token Economy, Operant Conditioning, and Positive Reinforcement
 Behavioral psychology has long established the efficacy of token economies in establishing foundational domestic and academic habits (Kazdin, 1977; Skinner, 1953). In a token economy, secondary reinforcers (e.g., star points or stamps) are awarded contingently upon the completion of desirable target behaviors (e.g., bed making, prayer recitation, or homework completion), which can subsequently be exchanged for meaningful primary or domestic privileges. Research confirms that positive behavioral reinforcement produces significantly higher emotional resilience and task compliance than negative behavioral punishment (Baumrind, 1991).
@@ -441,13 +439,11 @@ This chapter explicates the software development methodology, empirical stakehol
 ### 3.2 Software Development Lifecycle: Agile Scrum
 Because empathetic software design requires continuous usability feedback across diverse age groups, the **Agile Scrum** methodology was adopted. Development proceeded through five structured two-week sprints:
 
-<p align="left"><strong>Figure 3.1: Agile Scrum Iterative Development Lifecycle Flowchart</strong></p>
-
 <p align="center">
   <img src="./docs/figures/figure_3_1_agile_scrum.png" alt="Figure 3.1: Agile Scrum Iterative Development Lifecycle Flowchart" width="55%" />
 </p>
 
-*Figure 3.1: Agile Scrum Iterative Development Lifecycle Flowchart showing Sprint Execution and Stakeholder Feedback Loops.*
+<p align="left"><strong>Figure 3.1: Agile Scrum Iterative Development Lifecycle Flowchart</strong></p>
 
 #### 3.2.1 Sprint Cadence and Phase Decomposition
 - **Sprint 1 (Weeks 1–3: 15 Aug – 05 Sep 2026): Planning & Role-Adaptive Identity:** Configured the Flutter project, established Riverpod state architecture, implemented Firebase Authentication, and designed the in-memory Demo Sandbox switcher.
@@ -536,13 +532,11 @@ Chapter 3 established the Agile Scrum execution framework, translated 5-househol
 #### 4.1.1 Clean Architectural Layering
 ERAT adheres strictly to **Clean Architecture** principles, decoupling presentation widgets, business state orchestration, and data infrastructure into three distinct layers:
 
-<p align="left"><strong>Figure 4.1: Clean Architecture 3-Tier Layered Package Structure</strong></p>
-
 <p align="center">
   <img src="./docs/figures/figure_4_1_clean_architecture.png" alt="Figure 4.1: Clean Architecture 3-Tier Layered Package Structure" width="75%" />
 </p>
 
-*Figure 4.1: Clean Architecture 3-Tier Layered Package Structure showing Presentation, Riverpod Logic, and Data Services.*
+<p align="left"><strong>Figure 4.1: Clean Architecture 3-Tier Layered Package Structure</strong></p>
 
 #### 4.1.2 Key Architectural & Technical Design Decisions
 1. **Dynamic Runtime AgeBand Derivation:** Chronological age is derived dynamically at runtime from `birthMonth` and `birthYear` rather than storing a static `age` integer in Firestore. This prevents temporal data drift (where a child has a birthday without a manual database update) and guarantees that the appropriate `AgeBand`—and consequently UI typography, touch density, and privacy defaults—is enforced consistently upon each session bootstrap:
@@ -571,13 +565,11 @@ AgeBand get ageBand {
 ### 4.2 Unified Modeling Language (UML) Diagrams
 #### 4.2.1 Use Case Diagram
 
-<p align="left"><strong>Figure 4.2: Complete System UML Use Case Diagram</strong></p>
-
 <p align="center">
   <img src="./docs/figures/figure_4_2_use_case.png" alt="Figure 4.2: Complete System UML Use Case Diagram" width="80%" />
 </p>
 
-*Figure 4.2: Complete System UML Use Case Diagram delineating Parent and Child Actor Boundaries.*
+<p align="left"><strong>Figure 4.2: Complete System UML Use Case Diagram</strong></p>
 
 #### 4.2.2 Use Case Specifications
 
@@ -594,33 +586,27 @@ AgeBand get ageBand {
 
 #### 4.2.3 Activity Diagram: Child Routine Submission and Parent Verification Flow
 
-<p align="left"><strong>Figure 4.3: UML Activity Diagram: Child Routine Submission and Parent Verification Flow</strong></p>
-
 <p align="center">
   <img src="./docs/figures/figure_4_3_activity_diagram.png" alt="Figure 4.3: UML Activity Diagram: Child Routine Submission and Parent Verification Flow" width="60%" />
 </p>
 
-*Figure 4.3: UML Activity Diagram: Child Routine Submission and Parent Verification Flow.*
+<p align="left"><strong>Figure 4.3: UML Activity Diagram: Child Routine Submission and Parent Verification Flow</strong></p>
 
 #### 4.2.4 Sequence Diagram: Focus Activity Milestone Checkpoint Progression
-
-<p align="left"><strong>Figure 4.4: UML Sequence Diagram: Focus Activity Milestone Checkpoint Progression</strong></p>
 
 <p align="center">
   <img src="./docs/figures/figure_4_4_sequence_diagram.png" alt="Figure 4.4: UML Sequence Diagram: Focus Activity Milestone Checkpoint Progression" width="85%" />
 </p>
 
-*Figure 4.4: UML Sequence Diagram: Focus Activity Milestone Checkpoint Progression showing Asynchronous Riverpod-to-Firestore Messages.*
+<p align="left"><strong>Figure 4.4: UML Sequence Diagram: Focus Activity Milestone Checkpoint Progression</strong></p>
 
 #### 4.2.5 Domain Class Diagram
-
-<p align="left"><strong>Figure 4.5: UML Domain Class Diagram for ERAT Application Entities</strong></p>
 
 <p align="center">
   <img src="./docs/figures/figure_4_5_class_diagram.png" alt="Figure 4.5: UML Domain Class Diagram for ERAT Application Entities" width="85%" />
 </p>
 
-*Figure 4.5: UML Domain Class Diagram for ERAT Application Entities showing Multiplicity and Aggregations.*
+<p align="left"><strong>Figure 4.5: UML Domain Class Diagram for ERAT Application Entities</strong></p>
 
 ### 4.3 Database Architecture and Security Rules
 #### 4.3.1 Cloud Firestore Multi-Tier Data Schema
@@ -646,13 +632,11 @@ Domestic data in ERAT is organized across three security tiers in Cloud Firestor
 | `/families/{familyId}/ledger/{txId}` | `StarLedger` | `memberId`, `reasonMs`, `pointsEarned`, `starsEarned`, `timestamp` | Append-only audit trail |
 | `/parent_community_posts/{postId}` | `CommunityPost` | `authorName`, `title`, `content`, `category`, `likes`, `upvotedBy` | Verified parents only |
 
-<p align="left"><strong>Figure 4.6: Cloud Firestore Multi-Tenant Entity-Relationship Model</strong></p>
-
 <p align="center">
   <img src="./docs/figures/figure_4_6_firestore_erd.png" alt="Figure 4.6: Cloud Firestore Multi-Tenant Entity-Relationship Model" width="85%" />
 </p>
 
-*Figure 4.6: Cloud Firestore Multi-Tenant Entity-Relationship Model showing Collection Hierarchies.*
+<p align="left"><strong>Figure 4.6: Cloud Firestore Multi-Tenant Entity-Relationship Model</strong></p>
 
 #### 4.3.2 Granular Security Rules Implementation
 Security is enforced directly at the database kernel via `firestore.rules`. User membership is verified by cross-referencing `/users/{request.auth.uid}.familyId`:
@@ -797,12 +781,12 @@ UAT was conducted across 5 diverse test households in the Klang Valley comprisin
 
 | Household ID | Representative Evaluator | Household Demographic | Raw SUS Score | Percentile Rank | Grade & Usability Adjective |
 | :--- | :--- | :--- | :---: | :---: | :--- |
-| **H01** | Parent & Child (10) | 2 Parents, 2 Children (Ages 7, 10) | **82.5** | 88th Percentile | **Grade A (Excellent)** |
-| **H02** | Parent & Teen (14) | 2 Parents, 3 Children (Ages 4, 8, 14) | **87.5** | 96th Percentile | **Grade A+ (Superior)** |
+| **H01** | Parent & Child (10) | 2 Parents, 2 Children (Ages 7, 10) | **82.5** | 90th Percentile | **Grade A (Excellent)** |
+| **H02** | Parent & Teen (14) | 2 Parents, 3 Children (Ages 4, 8, 14) | **87.5** | 98th Percentile | **Grade A+ (Superior)** |
 | **H03** | Parent & Child (12) | 2 Parents, 2 Children (Ages 9, 12) | **80.0** | 84th Percentile | **Grade B+ / Acceptable (Good)** |
-| **H04** | Parent & Teen (16) | 2 Parents, 4 Children (Ages 5, 8, 11, 16) | **90.0** | 98th Percentile | **Grade A+ (Best Imaginable)** |
-| **H05** | Parent & Teen (13) | 2 Parents, 3 Children (Ages 6, 13, 17) | **82.5** | 88th Percentile | **Grade A (Excellent)** |
-| **Mean** | **5 Households** | **24 Total Participants** | **84.5** | **93rd Percentile** | **Grade A (High Acceptability)** |
+| **H04** | Parent & Teen (16) | 2 Parents, 4 Children (Ages 5, 8, 11, 16) | **90.0** | 99th Percentile | **Grade A+ (Best Imaginable)** |
+| **H05** | Parent & Teen (13) | 2 Parents, 3 Children (Ages 6, 13, 17) | **82.5** | 90th Percentile | **Grade A (Excellent)** |
+| **Mean** | **5 Households** | **24 Total Participants** | **84.5** | **96th Percentile** | **Grade A+ (Superior Usability)** |
 
 ```
        System Usability Scale (SUS) Score Distribution
@@ -812,13 +796,13 @@ UAT was conducted across 5 diverse test households in the Klang Valley comprisin
     │        ● (82.5)                                         │
  80 │                                 ● (80.0)       ● (82.5) │
     │   ───────────────────────────────────────────────────   │  <- Mean: 84.5
- 70 │                                                         │  (Grade A / Excellent)
+ 70 │                                                         │  (Grade A+ / Superior)
     │                                                         │
  60 └─────────────────────────────────────────────────────────┘
          Family 1    Family 2       Family 3   Family 4   Family 5
 ```
 
-Parent evaluators averaged a SUS score of **87.0**, whereas child and adolescent evaluators averaged **82.0**, yielding an overall composite mean of **84.5 / 100**. Benchmarked against the empirical percentiles of Bangor, Kortum, and Miller (2008) and Sauro and Lewis (2016), a score of 84.5 places ERAT in the **93rd percentile (Grade A, High Acceptability)**.
+Parent evaluators averaged a SUS score of **87.0**, whereas child and adolescent evaluators averaged **82.0**, yielding an overall composite mean of **84.5 / 100**. Benchmarked against the empirical percentiles of Bangor, Kortum, and Miller (2008) and Sauro and Lewis (2016), a score of 84.5 places ERAT in the **96th percentile (Grade A+, Superior Usability)**.
 
 **Key Qualitative Observations:**
 - **Parents** appreciated the Unified Approval Inbox, noting that it transformed daily chore verification into an affectionate, organized micro-moment.
@@ -829,7 +813,7 @@ Parent evaluators averaged a SUS score of **87.0**, whereas child and adolescent
 The empirical evaluation results directly affirm the core research hypothesis: replacing coercive surveillance with stage-adaptive positive gamification significantly enhances domestic cooperation. Comparing actual vs. expected results in Table 5.2 indicates that Cloud Firestore's real-time snapshot listeners maintain synchronization latency below 200ms across domestic WiFi and mobile LTE connections, well exceeding NFR-01. Furthermore, automated unit testing verified zero edge-case drift in age-band calculations. The high SUS score (84.5) validates that multi-role family applications can achieve high technical sophistication without burdening non-technical users with cognitive complexity.
 
 ### 5.6 Summary
-Chapter 5 verified the functional correctness and usability of ERAT through static analysis (0 warnings), automated unit and widget testing (10/10 passed), 8 real-time cloud integration tests (TC-01 to TC-08 all passed), and a 24-participant SUS usability evaluation yielding an overall mean of 84.5 (Grade A).
+Chapter 5 verified the functional correctness and usability of ERAT through static analysis (0 warnings), automated unit and widget testing (10/10 passed), 8 real-time cloud integration tests (TC-01 to TC-08 all passed), and a 24-participant SUS usability evaluation yielding an overall mean of 84.5 (Grade A+).
 
 ---
 
@@ -840,7 +824,7 @@ The ERAT project successfully researched, architected, implemented, and empirica
 1. **Objective 1 Achieved:** Comprehensive stakeholder elicitation with five multi-child households in Selangor yielded 12 functional requirements, establishing the necessity for positive reinforcement and adolescent privacy.
 2. **Objective 2 Achieved:** A Clean Architecture comprising 5 cognitive age bands, a Zero-Upward-Leak privacy model, and unidirectional Riverpod state management was designed and formally modeled via UML.
 3. **Objective 3 Achieved:** A cross-platform Flutter mobile prototype was implemented, integrating Cloud Firestore, 64 kbps AAC-LC audio pipelines, family calling, and an offline Demo Sandbox mode.
-4. **Objective 4 Achieved:** System efficacy was validated through 10 passing unit/widget tests, 8 passing integration test cases (TC-01 to TC-08), and an empirical SUS evaluation scoring 84.5 (93rd percentile, Grade A).
+4. **Objective 4 Achieved:** System efficacy was validated through 10 passing unit/widget tests, 8 passing integration test cases (TC-01 to TC-08), and an empirical SUS evaluation scoring 84.5 (96th percentile, Grade A+).
 
 ### 6.2 Strengths and Contributions of ERAT
 - **Empathetic Positive Reinforcement:** Replaces punitive parental spyware with mutual goal setting and visual milestone celebrations.
@@ -868,29 +852,29 @@ ERAT demonstrates that digital technology in the domestic sphere need not be an 
 
 1. Bangor, A., Kortum, P. T., & Miller, J. T. (2008). An empirical evaluation of the System Usability Scale. *International Journal of Human-Computer Interaction*, 24(6), 574–594. https://doi.org/10.1080/10447310802205776
 2. Baumrind, D. (1991). The influence of parenting style on adolescent competence and substance use. *The Journal of Early Adolescence*, 11(1), 56–95. https://doi.org/10.1177/0272431691111004
-3. Brooke, J. (1996). SUS: A 'quick and dirty' usability scale. In P. W. Jordan, B. Thomas, I. L. McClelland, & B. Weerdmeester (Eds.), *Usability Evaluation in Industry* (pp. 189–194). Taylor & Francis.
-4. Cranor, L. F., Durity, A. L., Marsh, A., & Ur, B. (2014). Parents' and teens' perspectives on privacy in mobile devices. *Proceedings of the 2014 ACM Conference on Computer Supported Cooperative Work*, 805–817. https://doi.org/10.1145/2531602.2531680
-5. Deci, E. L., & Ryan, R. M. (2000). The "what" and "why" of goal pursuits: Human needs and the self-determination of behavior. *Psychological Inquiry*, 11(4), 227–268. https://doi.org/10.1207/s15327965pli1104_01
-6. Deterding, S., Dixon, D., Khaled, R., & Nacke, L. (2011). From game design elements to gamefulness: Defining "gamification". *Proceedings of the 15th International Academic MindTrek Conference*, 9–15. https://doi.org/10.1145/2181037.2181040
-7. Diefenbach, S., & Hassenzahl, M. (2017). The dilemma of the hedonic: Investigating the role of pleasure and psychological needs in user experience. *Interacting with Computers*, 29(5), 702–716. https://doi.org/10.1093/iwc/iwx004
-8. Fogg, B. J. (2009). A behavior model for persuasive design. *Proceedings of the 4th International Conference on Persuasive Technology*, 1–7. https://doi.org/10.1145/1541948.1541999
-9. Hamari, J., Shernoff, D. J., & Rowe, E. (2016). Challenging games help students learn: An empirical study on engagement, flow and immersion in game-based learning. *Computers in Human Behavior*, 54, 170–179. https://doi.org/10.1016/j.chb.2015.07.045
-10. Hiniker, A., Schoenebeck, S. Y., & Kientz, J. A. (2016). Not at the dinner table: Parents' and children's perspectives on family technology rules. *Proceedings of the 19th ACM Conference on Computer-Supported Cooperative Work & Social Computing*, 1376–1389. https://doi.org/10.1145/2818048.2819940
-11. Hourcade, J. P. (2008). Interaction design and children. *Foundations and Trends in Human-Computer Interaction*, 1(4), 277–392. https://doi.org/10.1561/1100000006
-12. Kazdin, A. E. (1977). The token economy: A review and evaluation. *Plenum Press*. https://doi.org/10.1007/978-1-4615-7983-0
-13. Livingstone, S., Stoilova, M., & Nandagiri, R. (2017). Children's data and privacy online: Growing up in a digital world. *London School of Economics and Political Science*, Research Report. https://doi.org/10.21953/lse.457318
-14. McDaniel, B. T., & Radesky, J. S. (2018). Technoference: Longitudinal associations between parent technology, parent-child relational health, and child behavior. *Pediatric Research*, 84(2), 210–218. https://doi.org/10.1038/s41390-018-0052-6
-15. Neely, J. C., & Radesky, J. S. (2019). Media use and family communication: A systematic review. *Pediatrics*, 144(2), e20182058. https://doi.org/10.1542/peds.2018-2058
-16. Pennebaker, J. W., & Chung, C. K. (2011). Expressive writing and its links to mental and physical health. *Oxford Handbook of Health Psychology*, 417–437. https://doi.org/10.1093/oxfordhb/9780195342819.013.0018
-17. Piaget, J. (1952). *The origins of intelligence in children*. International Universities Press. https://doi.org/10.1037/11494-000
-18. Przybylski, A. K., Rigby, C. S., & Ryan, R. M. (2010). A motivational model of video game engagement. *Review of General Psychology*, 14(2), 154–166. https://doi.org/10.1037/a0019440
-19. Radesky, J. S., Schumacher, J., & Zuckerman, B. (2014). Mobile and interactive media use by young children: The good, the bad, and the unknown. *Pediatrics*, 135(1), 1–3. https://doi.org/10.1542/peds.2014-2251
-20. Ryan, R. M., & Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being. *American Psychologist*, 55(1), 68–78. https://doi.org/10.1037/0003-066x.55.1.68
-21. Sauro, J., & Lewis, J. R. (2016). *Quantifying the user experience: Practical statistics for user research* (2nd ed.). Morgan Kaufmann.
-22. Skinner, B. F. (1953). *Science and human behavior*. Macmillan.
-23. Tremblay, M. S., Carson, V., Chaput, J. P., Connor Gorber, S., Dinh, T., Duggan, M., ... & Zehr, L. (2016). Canadian 24-hour movement guidelines for children and youth. *Applied Physiology, Nutrition, and Metabolism*, 41(6), S311–S327. https://doi.org/10.1139/apnm-2016-0151
-24. Yarosh, S., Tang, A., Mokashi, S., & Abowd, G. D. (2013). "Almost touching": Parent-child remote communication through shared expressive spaces. *Proceedings of the 2013 ACM International Conference on Interactive Tabletops and Surfaces*, 185–194. https://doi.org/10.1145/2512349.2512816
-25. Zhai, X., Chu, X., Chai, C. S., Jong, M. S. Y., Istenic, A., Spector, M., ... & Li, Y. (2021). A review of artificial intelligence in education from 2010 to 2020. *Complexity*, 2021, 1–18. https://doi.org/10.1155/2021/8812542
+3. Bronfenbrenner, U. (1979). *The ecology of human development: Experiments by nature and design*. Harvard University Press.
+4. Brooke, J. (1996). SUS: A 'quick and dirty' usability scale. In P. W. Jordan, B. Thomas, I. L. McClelland, & B. Weerdmeester (Eds.), *Usability Evaluation in Industry* (pp. 189–194). Taylor & Francis.
+5. Cranor, L. F., Durity, A. L., Marsh, A., & Ur, B. (2014). Parents' and teens' perspectives on privacy in a technology-filled world. *Proceedings of the 10th Symposium on Usable Privacy and Security (SOUPS 2014)*, USENIX Association, 1–18.
+6. Deci, E. L., & Ryan, R. M. (2000). The "what" and "why" of goal pursuits: Human needs and the self-determination of behavior. *Psychological Inquiry*, 11(4), 227–268. https://doi.org/10.1207/s15327965pli1104_01
+7. Deterding, S., Dixon, D., Khaled, R., & Nacke, L. (2011). From game design elements to gamefulness: Defining "gamification". *Proceedings of the 15th International Academic MindTrek Conference*, 9–15. https://doi.org/10.1145/2181037.2181040
+8. Diefenbach, S., & Hassenzahl, M. (2017). The dilemma of the hedonic: Investigating the role of pleasure and psychological needs in user experience. *Interacting with Computers*, 29(5), 702–716. https://doi.org/10.1093/iwc/iwx004
+9. Domoff, S. E., Radesky, J. S., Harrison, K., Riley, H., Lumeng, J. C., & Miller, A. L. (2019). A naturalistic study of child and family screen media and mobile device use. *Journal of Child and Family Studies*, 28(2), 401–410. https://doi.org/10.1007/s10826-018-1275-1
+10. Fogg, B. J. (2009). A behavior model for persuasive design. *Proceedings of the 4th International Conference on Persuasive Technology*, 1–7. https://doi.org/10.1145/1541948.1541999
+11. Hamari, J., Shernoff, D. J., & Rowe, E. (2016). Challenging games help students learn: An empirical study on engagement, flow and immersion in game-based learning. *Computers in Human Behavior*, 54, 170–179. https://doi.org/10.1016/j.chb.2015.07.045
+12. Hiniker, A., Schoenebeck, S. Y., & Kientz, J. A. (2016). Not at the dinner table: Parents' and children's perspectives on family technology rules. *Proceedings of the 19th ACM Conference on Computer-Supported Cooperative Work & Social Computing*, 1376–1389. https://doi.org/10.1145/2818048.2819940
+13. Hourcade, J. P. (2008). Interaction design and children. *Foundations and Trends in Human-Computer Interaction*, 1(4), 277–392. https://doi.org/10.1561/1100000006
+14. Kazdin, A. E. (1977). *The token economy: A review and evaluation*. Plenum Press. https://doi.org/10.1007/978-1-4615-7983-0
+15. Livingstone, S., Stoilova, M., & Nandagiri, R. (2017). *Children's data and privacy online: Growing up in a digital world*. London School of Economics and Political Science.
+16. McDaniel, B. T., & Radesky, J. S. (2018). Technoference: Parent distraction with technology and associations with child behavior problems. *Child Development*, 89(1), 100–109. https://doi.org/10.1111/cdev.12822
+17. Pennebaker, J. W., & Chung, C. K. (2011). Expressive writing and its links to mental and physical health. In H. S. Friedman (Ed.), *Oxford Handbook of Health Psychology* (pp. 417–437). Oxford University Press. https://doi.org/10.1093/oxfordhb/9780195342819.013.0018
+18. Piaget, J. (1952). *The origins of intelligence in children*. International Universities Press. https://doi.org/10.1037/11494-000
+19. Przybylski, A. K., Rigby, C. S., & Ryan, R. M. (2010). A motivational model of video game engagement. *Review of General Psychology*, 14(2), 154–166. https://doi.org/10.1037/a0019440
+20. Radesky, J. S., Schumacher, J., & Zuckerman, B. (2014). Mobile and interactive media use by young children: The good, the bad, and the unknown. *Pediatrics*, 135(1), 1–3. https://doi.org/10.1542/peds.2014-2251
+21. Ryan, R. M., & Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being. *American Psychologist*, 55(1), 68–78. https://doi.org/10.1037/0003-066x.55.1.68
+22. Sauro, J., & Lewis, J. R. (2016). *Quantifying the user experience: Practical statistics for user research* (2nd ed.). Morgan Kaufmann.
+23. Skinner, B. F. (1953). *Science and human behavior*. Macmillan.
+24. Tremblay, M. S., Carson, V., Chaput, J. P., Connor Gorber, S., Dinh, T., Duggan, M., Faulkner, G., Gray, C. E., Gruber, R., Janson, K., Janssen, I., Katzmarzyk, P. T., LeBlanc, A. G., Macdonald, J., Saunders, T. J., & Zehr, L. (2016). Canadian 24-hour movement guidelines for children and youth. *Applied Physiology, Nutrition, and Metabolism*, 41(6), S311–S327. https://doi.org/10.1139/apnm-2016-0151
+25. Yarosh, S., Tang, A., Mokashi, S., & Abowd, G. D. (2013). "Almost touching": Parent-child remote communication through shared expressive spaces. *Proceedings of the 2013 ACM International Conference on Interactive Tabletops and Surfaces*, 185–194. https://doi.org/10.1145/2512349.2512816
 
 ---
 
@@ -925,13 +909,13 @@ Participants rated each item on a 5-point Likert Scale (1 = Strongly Disagree, 5
 | **H03** | 2 Parents, 2 Children (Ages 9, 12) | 82.5 | 77.5 | **80.0** | Grade B+ / Acceptable (Good) |
 | **H04** | 2 Parents, 4 Children (Ages 5, 8, 11, 16) | 92.5 | 87.5 | **90.0** | Grade A+ (Best Imaginable) |
 | **H05** | 2 Parents, 3 Children (Ages 6, 13, 17) | 85.0 | 80.0 | **82.5** | Grade A (Excellent) |
-| **OVERALL** | **10 Parents, 14 Children (24 Total Users)** | **87.0** | **82.0** | **84.5** | **Grade A (High Acceptability)** |
+| **OVERALL** | **10 Parents, 14 Children (24 Total Users)** | **87.0** | **82.0** | **84.5** | **Grade A+ (Superior Usability)** |
 
 ---
 
-# APPENDIX B: CLOUD FIRESTORE SECURITY RULES (EXCERPT)
+# APPENDIX B: COMPLETE CLOUD FIRESTORE SECURITY RULES CONFIGURATION
 
-The following declarative rules represent the actual production security policy defined in `/Users/wpocoyo87/FYP/firestore.rules` enforcing multi-tenant domestic isolation and Zero-Upward-Leak privacy:
+The following declarative rules represent the actual production security policy defined in `firestore.rules` enforcing multi-tenant domestic isolation and Zero-Upward-Leak privacy:
 
 ```javascript
 rules_version = '2';

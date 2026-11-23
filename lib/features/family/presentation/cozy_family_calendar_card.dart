@@ -1248,9 +1248,7 @@ void showAddFamilyEventSheet(
                                             chosenTime?.hour ?? 9,
                                             chosenTime?.minute ?? 0,
                                           ),
-                                          timeLabel: chosenTime != null
-                                              ? chosenTime!.format(modalCtx)
-                                              : null,
+                                          timeLabel: chosenTime?.format(modalCtx),
                                           participantIds: allFamily
                                               ? const []
                                               : selectedMemberIds.toList(),

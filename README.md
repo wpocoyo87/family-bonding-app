@@ -5,7 +5,7 @@
 [![State Management](https://img.shields.io/badge/Riverpod-2.6.1-3B82F6)](https://riverpod.dev)
 [![Backend](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com)
 [![License](https://img.shields.io/badge/License-Academic%20%2F%20MIT-brightgreen.svg)](LICENSE)
-[![SUS Score](https://img.shields.io/badge/SUS%20Score-84.5%20(Grade%20A)-success)](#evaluation--usability)
+[![SUS Score](https://img.shields.io/badge/SUS%20Score-84.5%20(Grade%20A%2B)-success)](#evaluation--usability)
 
 > **Academic Final Year Project (FYP)**  
 > **Degree Program:** Bachelor of Science in Information Technology  
@@ -234,7 +234,7 @@ ERAT underwent rigorous empirical usability testing across five multi-child hous
 | **H03-P / H03-C** | Parent & Child (12) | 2 Parents, 2 Children (Ages 9, 12) | **80.0** | A- / B+ (Good) |
 | **H04-P / H04-C** | Parent & Teen (16) | 2 Parents, 4 Children (Ages 5, 8, 11, 16) | **90.0** | A+ (Best Imaginable) |
 | **H05-P / H05-C** | Parent & Teen (13) | 2 Parents, 3 Children (Ages 6, 13, 17) | **82.5** | A (Excellent) |
-| **Overall Mean** | — | **5 Multi-Child Households (24 Users)** | **84.6 / 100** | **Grade A (High Acceptability)** |
+| **Overall Mean** | — | **5 Multi-Child Households (24 Users)** | **84.5 / 100** | **Grade A+ (Superior Usability)** |
 
 ---
 
