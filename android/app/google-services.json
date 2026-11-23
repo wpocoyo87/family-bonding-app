@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "300591013981",
+    "project_id": "erat-apps",
+    "storage_bucket": "erat-apps.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300591013981:android:9e457526c0baf19fadadb4",
+        "android_client_info": {
+          "package_name": "com.erat.erat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfVA7o_ZAQOqTnEwjX2-_r8fkkXTeZ6MQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

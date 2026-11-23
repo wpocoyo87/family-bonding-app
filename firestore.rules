@@ -1,0 +1,919 @@
+rules_version = '2';
+
+// ===============================================================
+// ERAT Family App — Cloud Firestore Security Rules
+// 3-Tier Downward-Read / Zero-Upward-Leak Privacy Architecture
+// ===============================================================
+//
+// Assumed Data Model
+// ===============================================================
+//
+// Tier 1 — Public Layer (Developer-curated, read-only for signed-in users):
+//
+// Collection: public_dining_notes
+// Document ID: {noteId}
+// Fields:
+//   - textMs: string (required, 0..500 chars) - Malay prompt text
+//   - textEn: string (required, 0..500 chars) - English prompt text
+//   - authorName: string (optional, 1..100 chars) - Curated author label
+//   - createdAt: timestamp (required) - Creation timestamp
+//
+// Collection: public_activity_templates
+// Document ID: {templateId}
+// Fields:
+//   - Developer-curated bonding activity templates (Admin SDK writes only)
+//
+// Tier 2 — User Profile Mapping (Owner-only PII isolation):
+//
+// Collection: users
+// Document ID: {uid} (matches Firebase Auth UID)
+// Fields:
+//   - uid: string (required, immutable, == auth.uid, 1..128 chars)
+//   - email: string (required, valid email, <= 254 chars)
+//   - displayName: string (required, 1..100 chars)
+//   - familyId: string (required, immutable after create, 1..128 chars)
+//   - memberId: string (required, immutable after create, 1..128 chars)
+//   - role: string (required, immutable after create, enum: owner|coparent|caregiver|adult|teen|child)
+//   - createdAt: timestamp (optional, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// Tier 3 — Family Layer (Strict per-family isolation):
+//
+// Collection: families
+// Document ID: {familyId}
+// Fields:
+//   - id: string (required, immutable, == familyId, 1..128 chars)
+//   - name: string (required, 1..100 chars)
+//   - ownerUid: string (optional, immutable, 1..128 chars)
+//   - inviteCode: string (required, 1..40 chars)
+//   - inviteExpiresAt: timestamp (optional)
+//   - familyGoalTitleMs: string (required, 0..200 chars)
+//   - familyGoalTitleEn: string (required, 0..200 chars)
+//   - familyGoalTargetStars: int (required, 0..1000000)
+//   - familyGoalCurrentStars: int (required, 0..1000000)
+//   - photoPath: string | null (optional, <= 1000 chars)
+//   - createdAt: timestamp (optional, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// Subcollection: families/{familyId}/members/{memberId}
+// Fields:
+//   - id: string (required, immutable, == memberId, 1..128 chars)
+//   - familyId: string (required, immutable, == familyId, 1..128 chars)
+//   - name: string (required, 1..100 chars)
+//   - avatarEmoji: string (required, 1..20 chars)
+//   - role: string (required, enum: owner|coparent|caregiver|adult|teen|child)
+//   - birthMonth: int (required, 1..12)
+//   - birthYear: int (required, 1900..2100)
+//   - pin: string | null (optional, <= 20 chars)
+//   - points: int (required, 0..10000000)
+//   - stars: int (required, 0..1000000)
+//   - streakDays: int (required, 0..100000)
+//   - customPhotoPath: string | null (optional, <= 1000 chars)
+//   - tagline: string | null (optional, <= 100 chars)
+//   - privacyLevel: string (required, enum: privateSpace|family|selected)
+//   - customMode: string | null (optional, enum: guided|coPlay|independent|mutual|familyHub)
+//   - milestones: list (optional, <= 100 items)
+//   - createdAt: timestamp (optional, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// Subcollection: families/{familyId}/dining_notes/{noteId}
+// Fields:
+//   - id: string (required, immutable, == noteId, 1..128 chars)
+//   - textMs: string (required, 0..500 chars)
+//   - textEn: string (required, 0..500 chars)
+//   - authorName: string (required, 1..100 chars)
+//   - createdAt: timestamp (required, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// Subcollection: families/{familyId}/activities/{activityId}
+// Fields:
+//   - id: string (required, immutable, == activityId, 1..128 chars)
+//   - titleMs: string (required, 1..200 chars)
+//   - titleEn: string (required, 1..200 chars)
+//   - descMs: string (required, 0..1000 chars)
+//   - descEn: string (required, 0..1000 chars)
+//   - iconEmoji: string (required, 1..20 chars)
+//   - category: string (required, enum: bonding10Min|goodHabit|familyChallenge)
+//   - durationMinutes: int (required, 1..1440)
+//   - points: int (required, 0..10000)
+//   - stars: int (required, 0..1000)
+//   - minAge: int (required, 0..120)
+//   - maxAge: int (required, 0..150, >= minAge)
+//   - requiresParentVerification: bool (required)
+//   - completedByMemberIds: list (required, <= 50 items)
+//   - pendingVerificationMemberIds: list (required, <= 50 items)
+//   - isPrivateNote: bool (optional)
+//   - customImagePath: string | null (optional, <= 1000 chars)
+//   - participationMode: string (optional, enum: everyone|anyone)
+//   - scheduledDate: timestamp | null (optional)
+//   - createdAt: timestamp (optional, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// Subcollection: families/{familyId}/wish_goals/{goalId}
+// Fields:
+//   - id: string (required, immutable, == goalId, 1..128 chars)
+//   - memberId: string (required, immutable, 1..128 chars)
+//   - memberName: string (required, 1..100 chars)
+//   - titleMs: string (required, 1..200 chars)
+//   - titleEn: string (required, 1..200 chars)
+//   - iconEmoji: string (required, 1..20 chars)
+//   - customImagePath: string | null (optional, <= 1000 chars)
+//   - targetPoints: int (required, 1..1000000)
+//   - currentPoints: int (required, 0..1000000)
+//   - status: string (required, enum: pendingApproval|active|achieved)
+//   - approvedByName: string | null (optional, <= 100 chars)
+//   - basis: string (required, enum: daily|weekly|monthly|quarterly|yearly)
+//   - focusActivity: string | null (optional, <= 200 chars) - Optional focused habit/practice activity for the milestone (e.g., "Hafal Doa Qunut")
+//   - createdAt: timestamp (optional, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// Subcollection: families/{familyId}/ledger/{ledgerId}
+// Fields (append-only audit log):
+//   - id: string (optional, == ledgerId, 1..128 chars)
+//   - memberId: string (required, 1..128 chars)
+//   - memberName: string (required, 1..100 chars)
+//   - memberAvatar: string | null (optional, <= 20 chars)
+//   - reasonMs: string (required, 1..300 chars)
+//   - reasonEn: string (required, 1..300 chars)
+//   - pointsEarned: int (required, -100000..100000)
+//   - starsEarned: int (required, -10000..10000)
+//   - timestamp: timestamp (required)
+//
+// Subcollection: families/{familyId}/routine_requests/{reqId}
+// Fields:
+//   - id: string (required, immutable, == reqId, 1..128 chars)
+//   - memberId: string (required, immutable, 1..128 chars)
+//   - memberName: string (required, 1..100 chars)
+//   - memberAvatar: string (required, 1..20 chars)
+//   - routineId: string (required, immutable, 1..128 chars)
+//   - routineTitleMs: string (required, 1..200 chars)
+//   - routineTitleEn: string (required, 1..200 chars)
+//   - timeLabel: string (required, 1..60 chars)
+//   - stars: int (required, 0..1000)
+//   - status: string (required, enum: todo|pendingApproval|completed)
+//   - approvedByName: string | null (optional, <= 100 chars)
+//   - requestedAt: timestamp (required, immutable)
+//   - approvedAt: timestamp | null (optional)
+//   - updatedAt: timestamp (optional)
+//
+// Subcollection: families/{familyId}/messages/{msgId}
+// Fields (append-only family chat):
+//   - id: string (required, immutable, == msgId, 1..128 chars)
+//   - senderId: string (required, 1..128 chars)
+//   - senderName: string (required, 1..100 chars)
+//   - senderAvatar: string (required, 1..20 chars)
+//   - channel: string (required, 1..128 chars)
+//   - content: string (required, 1..2000 chars)
+//   - isSticker: bool (required)
+//   - isAudioVoiceNote: bool (required)
+//   - audioDuration: string | null (optional, <= 30 chars)
+//   - audioUrl: string | null (optional, <= 1500 chars) - Firebase Storage download URL or local fallback path
+//   - createdAt: timestamp (required)
+//
+// Subcollection: families/{familyId}/calendar_events/{eventId}
+// Fields (shared family calendar events):
+//   - id: string (required, immutable, == eventId, 1..128 chars)
+//   - title: string (required, 1..200 chars)
+//   - description: string | null (optional, <= 1000 chars)
+//   - emoji: string (required, 1..20 chars)
+//   - eventDate: timestamp (required)
+//   - timeLabel: string | null (optional, <= 60 chars)
+//   - createdById: string (required, immutable, 1..128 chars)
+//   - createdByName: string (required, 1..100 chars)
+//   - participantIds: list (required, <= 50 items)
+//   - createdAt: timestamp (required, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// Parent Community Layer (Parent-only cross-family forum):
+//
+// Collection: parent_community_posts
+// Document ID: {postId}
+// Fields:
+//   - id: string (required, immutable, == postId, 1..128 chars)
+//   - authorUid: string (optional, immutable, == auth.uid on create, 1..128 chars)
+//   - authorId: string (required, immutable, 1..128 chars)
+//   - authorName: string (required, 1..100 chars)
+//   - authorRole: string (required, 1..100 chars)
+//   - authorAvatar: string (required, 1..20 chars)
+//   - countryCode: string (required, 1..10 chars)
+//   - countryName: string (required, 1..60 chars)
+//   - language: string (required, 1..10 chars)
+//   - isSharedForKids: bool (required)
+//   - isInternational: bool (required)
+//   - title: string (required, 1..200 chars)
+//   - content: string (required, 1..4000 chars)
+//   - tag: string (required, 1..60 chars)
+//   - likes: int (required, 0..1000000)
+//   - replies: int (required, 0..100000)
+//   - upvotedByIds: list (required, <= 500 items)
+//   - comments: list (required, <= 200 items)
+//   - createdAt: timestamp (required, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// Tier 4 — Individual Privacy Layer (Zero-Upward-Leak Private Journal):
+//
+// Subcollection: families/{familyId}/members/{memberId}/private_journal/{entryId}
+// Fields:
+//   - id: string (required, immutable, == entryId, 1..128 chars)
+//   - memberId: string (required, immutable, == memberId, 1..128 chars)
+//   - memberName: string (required, 1..100 chars)
+//   - moodEmoji: string (required, 1..20 chars)
+//   - title: string (required, 1..200 chars)
+//   - content: string (required, 1..5000 chars)
+//   - isVoiceEntry: bool (required)
+//   - voiceDuration: string | null (optional, <= 30 chars)
+//   - audioUrl: string | null (optional, <= 1500 chars) - Firebase Storage download URL or local fallback path
+//   - isSharedWithParents: bool (required)
+//   - createdAt: timestamp (required, immutable)
+//   - updatedAt: timestamp (optional)
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Core Auth & Identity Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function uidUnchanged() {
+      return !('uid' in request.resource.data) ||
+             request.resource.data.uid == request.auth.uid;
+    }
+
+    function uidNotModified() {
+      return !('uid' in request.resource.data) ||
+             request.resource.data.uid == resource.data.uid;
+    }
+
+    function userDocPath(uid) {
+      return /databases/$(database)/documents/users/$(uid);
+    }
+
+    function hasUserProfile() {
+      return isAuthenticated() && exists(userDocPath(request.auth.uid));
+    }
+
+    function getUserProfile() {
+      return get(userDocPath(request.auth.uid)).data;
+    }
+
+    // Strict family isolation: caller's /users/{uid} must map to this exact familyId
+    function isFamilyMember(familyId) {
+      return hasUserProfile() && getUserProfile().familyId == familyId;
+    }
+
+    // Parent / guardian roles within the same family
+    function isFamilyParentOrGuardian(familyId) {
+      return isFamilyMember(familyId) &&
+             getUserProfile().role in ['owner', 'coparent', 'caregiver'];
+    }
+
+    // Individual privacy owner check: caller belongs to familyId AND owns memberId
+    function isJournalOwner(familyId, memberId) {
+      return isFamilyMember(familyId) &&
+             getUserProfile().memberId == memberId;
+    }
+
+    // Authenticated parent/guardian across families (Parent-only Community)
+    function isAuthenticatedParent() {
+      return hasUserProfile() &&
+             getUserProfile().role in ['owner', 'coparent', 'caregiver'];
+    }
+
+    // Author check for Parent Community posts
+    function isCommunityPostAuthor(postData) {
+      return ('authorUid' in postData && postData.authorUid == request.auth.uid) ||
+             postData.authorId == getUserProfile().memberId;
+    }
+
+    // ===============================================================
+    // Schema & Field Validation Helper Functions
+    // ===============================================================
+
+    function hasRequiredFields(data, fields) {
+      return data.keys().hasAll(fields);
+    }
+
+    function hasOnlyAllowedFields(data, fields) {
+      return data.keys().hasOnly(fields);
+    }
+
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    function isValidString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
+    }
+
+    function isValidOptionalString(data, field, minLen, maxLen) {
+      return !(field in data) ||
+             isValidString(data[field], minLen, maxLen);
+    }
+
+    function isValidNullableString(data, field, maxLen) {
+      return !(field in data) ||
+             data[field] == null ||
+             (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    function isValidOptionalTimestamp(data, field) {
+      return !(field in data) || data[field] is timestamp;
+    }
+
+    function isValidNullableTimestamp(data, field) {
+      return !(field in data) || data[field] == null || data[field] is timestamp;
+    }
+
+    function isValidOptionalBool(data, field) {
+      return !(field in data) || data[field] is bool;
+    }
+
+    function isValidEmail(email) {
+      return email is string &&
+             email.size() <= 254 &&
+             email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidIntRange(val, minVal, maxVal) {
+      return val is int && val >= minVal && val <= maxVal;
+    }
+
+    function isValidList(listVal, maxSize) {
+      return listVal is list && listVal.size() <= maxSize;
+    }
+
+    function isValidRole(role) {
+      return role is string &&
+             role in ['owner', 'coparent', 'caregiver', 'adult', 'teen', 'child'];
+    }
+
+    // ===============================================================
+    // Domain Validators (Used in BOTH create and update rules)
+    // ===============================================================
+
+    function isValidUser(data, uid) {
+      let allowed = [
+        'uid', 'email', 'displayName', 'familyId',
+        'memberId', 'role', 'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'uid', 'email', 'displayName', 'familyId', 'memberId', 'role'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.uid, 1, 128) &&
+             data.uid == uid &&
+             isValidEmail(data.email) &&
+             isValidString(data.displayName, 1, 100) &&
+             isValidString(data.familyId, 1, 128) &&
+             isValidString(data.memberId, 1, 128) &&
+             isValidRole(data.role) &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidFamily(data, familyId) {
+      let allowed = [
+        'id', 'name', 'ownerUid', 'inviteCode', 'inviteExpiresAt',
+        'familyGoalTitleMs', 'familyGoalTitleEn',
+        'familyGoalTargetStars', 'familyGoalCurrentStars',
+        'photoPath', 'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'name', 'inviteCode',
+        'familyGoalTitleMs', 'familyGoalTitleEn',
+        'familyGoalTargetStars', 'familyGoalCurrentStars'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == familyId &&
+             isValidString(data.name, 1, 100) &&
+             isValidOptionalString(data, 'ownerUid', 1, 128) &&
+             isValidString(data.inviteCode, 1, 40) &&
+             isValidOptionalTimestamp(data, 'inviteExpiresAt') &&
+             isValidString(data.familyGoalTitleMs, 0, 200) &&
+             isValidString(data.familyGoalTitleEn, 0, 200) &&
+             isValidIntRange(data.familyGoalTargetStars, 0, 1000000) &&
+             isValidIntRange(data.familyGoalCurrentStars, 0, 1000000) &&
+             isValidNullableString(data, 'photoPath', 1000) &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidMember(data, familyId, memberId) {
+      let allowed = [
+        'id', 'familyId', 'name', 'avatarEmoji', 'role',
+        'birthMonth', 'birthYear', 'pin', 'points', 'stars',
+        'streakDays', 'customPhotoPath', 'tagline', 'privacyLevel',
+        'customMode', 'milestones', 'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'familyId', 'name', 'avatarEmoji', 'role',
+        'birthMonth', 'birthYear', 'points', 'stars',
+        'streakDays', 'privacyLevel'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == memberId &&
+             isValidString(data.familyId, 1, 128) &&
+             data.familyId == familyId &&
+             isValidString(data.name, 1, 100) &&
+             isValidString(data.avatarEmoji, 1, 20) &&
+             isValidRole(data.role) &&
+             isValidIntRange(data.birthMonth, 1, 12) &&
+             isValidIntRange(data.birthYear, 1900, 2100) &&
+             isValidNullableString(data, 'pin', 20) &&
+             isValidIntRange(data.points, 0, 10000000) &&
+             isValidIntRange(data.stars, 0, 1000000) &&
+             isValidIntRange(data.streakDays, 0, 100000) &&
+             isValidNullableString(data, 'customPhotoPath', 1000) &&
+             isValidNullableString(data, 'tagline', 100) &&
+             data.privacyLevel is string &&
+             data.privacyLevel in ['privateSpace', 'family', 'selected'] &&
+             (!('customMode' in data) ||
+              data.customMode == null ||
+              (data.customMode is string &&
+               data.customMode in ['guided', 'coPlay', 'independent', 'mutual', 'familyHub'])) &&
+             (!('milestones' in data) || isValidList(data.milestones, 100)) &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidDiningNote(data, noteId) {
+      let allowed = [
+        'id', 'textMs', 'textEn', 'authorName', 'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'textMs', 'textEn', 'authorName', 'createdAt'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == noteId &&
+             isValidString(data.textMs, 0, 500) &&
+             isValidString(data.textEn, 0, 500) &&
+             (data.textMs.size() > 0 || data.textEn.size() > 0) &&
+             isValidString(data.authorName, 1, 100) &&
+             data.createdAt is timestamp &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidActivity(data, activityId) {
+      let allowed = [
+        'id', 'titleMs', 'titleEn', 'descMs', 'descEn', 'iconEmoji',
+        'category', 'durationMinutes', 'points', 'stars',
+        'minAge', 'maxAge', 'requiresParentVerification',
+        'completedByMemberIds', 'pendingVerificationMemberIds',
+        'isPrivateNote', 'customImagePath', 'participationMode',
+        'scheduledDate', 'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'titleMs', 'titleEn', 'descMs', 'descEn', 'iconEmoji',
+        'category', 'durationMinutes', 'points', 'stars',
+        'minAge', 'maxAge', 'requiresParentVerification',
+        'completedByMemberIds', 'pendingVerificationMemberIds'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == activityId &&
+             isValidString(data.titleMs, 1, 200) &&
+             isValidString(data.titleEn, 1, 200) &&
+             isValidString(data.descMs, 0, 1000) &&
+             isValidString(data.descEn, 0, 1000) &&
+             isValidString(data.iconEmoji, 1, 20) &&
+             data.category is string &&
+             data.category in ['bonding10Min', 'goodHabit', 'familyChallenge'] &&
+             isValidIntRange(data.durationMinutes, 1, 1440) &&
+             isValidIntRange(data.points, 0, 10000) &&
+             isValidIntRange(data.stars, 0, 1000) &&
+             isValidIntRange(data.minAge, 0, 120) &&
+             isValidIntRange(data.maxAge, 0, 150) &&
+             data.maxAge >= data.minAge &&
+             data.requiresParentVerification is bool &&
+             isValidList(data.completedByMemberIds, 50) &&
+             isValidList(data.pendingVerificationMemberIds, 50) &&
+             isValidOptionalBool(data, 'isPrivateNote') &&
+             isValidNullableString(data, 'customImagePath', 1000) &&
+             (!('participationMode' in data) ||
+              (data.participationMode is string &&
+               data.participationMode in ['everyone', 'anyone'])) &&
+             isValidNullableTimestamp(data, 'scheduledDate') &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidWishGoal(data, goalId) {
+      let allowed = [
+        'id', 'memberId', 'memberName', 'titleMs', 'titleEn',
+        'iconEmoji', 'customImagePath', 'targetPoints', 'currentPoints',
+        'status', 'approvedByName', 'basis', 'focusActivity',
+        'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'memberId', 'memberName', 'titleMs', 'titleEn',
+        'iconEmoji', 'targetPoints', 'currentPoints', 'status', 'basis'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == goalId &&
+             isValidString(data.memberId, 1, 128) &&
+             isValidString(data.memberName, 1, 100) &&
+             isValidString(data.titleMs, 1, 200) &&
+             isValidString(data.titleEn, 1, 200) &&
+             isValidString(data.iconEmoji, 1, 20) &&
+             isValidNullableString(data, 'customImagePath', 1000) &&
+             isValidIntRange(data.targetPoints, 1, 1000000) &&
+             isValidIntRange(data.currentPoints, 0, 1000000) &&
+             data.status is string &&
+             data.status in ['pendingApproval', 'active', 'achieved'] &&
+             isValidNullableString(data, 'approvedByName', 100) &&
+             data.basis is string &&
+             data.basis in ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'] &&
+             isValidNullableString(data, 'focusActivity', 200) &&
+             isValidOptionalTimestamp(data, 'createdAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidLedgerEntry(data, ledgerId) {
+      let allowed = [
+        'id', 'memberId', 'memberName', 'memberAvatar',
+        'reasonMs', 'reasonEn', 'pointsEarned', 'starsEarned', 'timestamp'
+      ];
+      let required = [
+        'memberId', 'memberName', 'reasonMs', 'reasonEn',
+        'pointsEarned', 'starsEarned', 'timestamp'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             (!('id' in data) || (isValidString(data.id, 1, 128) && data.id == ledgerId)) &&
+             isValidString(data.memberId, 1, 128) &&
+             isValidString(data.memberName, 1, 100) &&
+             isValidNullableString(data, 'memberAvatar', 20) &&
+             isValidString(data.reasonMs, 1, 300) &&
+             isValidString(data.reasonEn, 1, 300) &&
+             isValidIntRange(data.pointsEarned, -100000, 100000) &&
+             isValidIntRange(data.starsEarned, -10000, 10000) &&
+             data.timestamp is timestamp;
+    }
+
+    function isValidJournalEntry(data, memberId, entryId) {
+      let allowed = [
+        'id', 'memberId', 'memberName', 'moodEmoji',
+        'title', 'content', 'isVoiceEntry', 'voiceDuration', 'audioUrl',
+        'isSharedWithParents', 'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'memberId', 'memberName', 'moodEmoji',
+        'title', 'content', 'isVoiceEntry', 'isSharedWithParents', 'createdAt'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == entryId &&
+             isValidString(data.memberId, 1, 128) &&
+             data.memberId == memberId &&
+             isValidString(data.memberName, 1, 100) &&
+             isValidString(data.moodEmoji, 1, 20) &&
+             isValidString(data.title, 1, 200) &&
+             isValidString(data.content, 1, 5000) &&
+             data.isVoiceEntry is bool &&
+             isValidNullableString(data, 'voiceDuration', 30) &&
+             isValidNullableString(data, 'audioUrl', 1500) &&
+             data.isSharedWithParents is bool &&
+             data.createdAt is timestamp &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidRoutineRequest(data, reqId) {
+      let allowed = [
+        'id', 'memberId', 'memberName', 'memberAvatar',
+        'routineId', 'routineTitleMs', 'routineTitleEn', 'timeLabel',
+        'stars', 'status', 'approvedByName',
+        'requestedAt', 'approvedAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'memberId', 'memberName', 'memberAvatar',
+        'routineId', 'routineTitleMs', 'routineTitleEn', 'timeLabel',
+        'stars', 'status', 'requestedAt'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == reqId &&
+             isValidString(data.memberId, 1, 128) &&
+             isValidString(data.memberName, 1, 100) &&
+             isValidString(data.memberAvatar, 1, 20) &&
+             isValidString(data.routineId, 1, 128) &&
+             isValidString(data.routineTitleMs, 1, 200) &&
+             isValidString(data.routineTitleEn, 1, 200) &&
+             isValidString(data.timeLabel, 1, 60) &&
+             isValidIntRange(data.stars, 0, 1000) &&
+             data.status is string &&
+             data.status in ['todo', 'pendingApproval', 'completed'] &&
+             isValidNullableString(data, 'approvedByName', 100) &&
+             data.requestedAt is timestamp &&
+             isValidNullableTimestamp(data, 'approvedAt') &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidChatMessage(data, msgId) {
+      let allowed = [
+        'id', 'senderId', 'senderName', 'senderAvatar',
+        'channel', 'content', 'isSticker', 'isAudioVoiceNote',
+        'audioDuration', 'audioUrl', 'createdAt'
+      ];
+      let required = [
+        'id', 'senderId', 'senderName', 'senderAvatar',
+        'channel', 'content', 'isSticker', 'isAudioVoiceNote',
+        'createdAt'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == msgId &&
+             isValidString(data.senderId, 1, 128) &&
+             isValidString(data.senderName, 1, 100) &&
+             isValidString(data.senderAvatar, 1, 20) &&
+             isValidString(data.channel, 1, 128) &&
+             isValidString(data.content, 1, 2000) &&
+             data.isSticker is bool &&
+             data.isAudioVoiceNote is bool &&
+             isValidNullableString(data, 'audioDuration', 30) &&
+             isValidNullableString(data, 'audioUrl', 1500) &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidCalendarEvent(data, eventId) {
+      let allowed = [
+        'id', 'title', 'description', 'emoji', 'eventDate', 'timeLabel',
+        'createdById', 'createdByName', 'participantIds',
+        'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'title', 'emoji', 'eventDate',
+        'createdById', 'createdByName', 'participantIds', 'createdAt'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == eventId &&
+             isValidString(data.title, 1, 200) &&
+             isValidNullableString(data, 'description', 1000) &&
+             isValidString(data.emoji, 1, 20) &&
+             data.eventDate is timestamp &&
+             isValidNullableString(data, 'timeLabel', 60) &&
+             isValidString(data.createdById, 1, 128) &&
+             isValidString(data.createdByName, 1, 100) &&
+             isValidList(data.participantIds, 50) &&
+             data.createdAt is timestamp &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    function isValidParentCommunityPost(data, postId) {
+      let allowed = [
+        'id', 'authorUid', 'authorId', 'authorName', 'authorRole',
+        'authorAvatar', 'countryCode', 'countryName', 'language',
+        'isSharedForKids', 'isInternational', 'title', 'content', 'tag',
+        'likes', 'replies', 'upvotedByIds', 'comments',
+        'createdAt', 'updatedAt'
+      ];
+      let required = [
+        'id', 'authorId', 'authorName', 'authorRole', 'authorAvatar',
+        'countryCode', 'countryName', 'language',
+        'isSharedForKids', 'isInternational', 'title', 'content', 'tag',
+        'likes', 'replies', 'upvotedByIds', 'comments', 'createdAt'
+      ];
+      return hasOnlyAllowedFields(data, allowed) &&
+             hasRequiredFields(data, required) &&
+             isValidString(data.id, 1, 128) &&
+             data.id == postId &&
+             isValidOptionalString(data, 'authorUid', 1, 128) &&
+             isValidString(data.authorId, 1, 128) &&
+             isValidString(data.authorName, 1, 100) &&
+             isValidString(data.authorRole, 1, 100) &&
+             isValidString(data.authorAvatar, 1, 20) &&
+             isValidString(data.countryCode, 1, 10) &&
+             isValidString(data.countryName, 1, 60) &&
+             isValidString(data.language, 1, 10) &&
+             data.isSharedForKids is bool &&
+             data.isInternational is bool &&
+             isValidString(data.title, 1, 200) &&
+             isValidString(data.content, 1, 4000) &&
+             isValidString(data.tag, 1, 60) &&
+             isValidIntRange(data.likes, 0, 1000000) &&
+             isValidIntRange(data.replies, 0, 100000) &&
+             isValidList(data.upvotedByIds, 500) &&
+             isValidList(data.comments, 200) &&
+             data.createdAt is timestamp &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    // ===============================================================
+    // TIER 1: Public Layer (Developer-Curated, Read-Only for Signed-In Users)
+    // Downward read only; clients can NEVER create, update, or delete.
+    // ===============================================================
+
+    match /public_dining_notes/{noteId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if false;
+    }
+
+    match /public_activity_templates/{templateId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if false;
+    }
+
+    // ===============================================================
+    // TIER 2: User Profile Mapping (/users/{uid})
+    // Strict owner-only access (contains PII: email).
+    // familyId, memberId, and role are locked after creation to prevent
+    // cross-family hopping, member impersonation, or role escalation.
+    // ===============================================================
+
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) &&
+                       uidUnchanged() &&
+                       isValidUser(request.resource.data, uid);
+      allow update: if isOwner(uid) &&
+                       uidNotModified() &&
+                       isValidUser(request.resource.data, uid) &&
+                       areImmutableFieldsUnchanged([
+                         'uid', 'familyId', 'memberId', 'role', 'createdAt'
+                       ]);
+      allow delete: if false;
+    }
+
+    // ===============================================================
+    // TIER 3: Family Layer (/families/{familyId} and Subcollections)
+    // Strict family isolation: only members whose /users/{uid}.familyId
+    // matches familyId may access. Zero cross-family or public leakage.
+    // ===============================================================
+
+    match /families/{familyId} {
+      allow read: if isFamilyMember(familyId);
+      // Allow creation either by an existing mapped family member or during
+      // initial onboarding registration where ownerUid == request.auth.uid.
+      allow create: if isAuthenticated() &&
+                       isValidFamily(request.resource.data, familyId) &&
+                       (isFamilyMember(familyId) ||
+                        ('ownerUid' in request.resource.data &&
+                         request.resource.data.ownerUid == request.auth.uid));
+      allow update: if isFamilyMember(familyId) &&
+                       isValidFamily(request.resource.data, familyId) &&
+                       areImmutableFieldsUnchanged(['id', 'ownerUid', 'createdAt']);
+      allow delete: if false;
+
+      // Family Member Profiles
+      match /members/{memberId} {
+        allow read: if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+                         isValidMember(request.resource.data, familyId, memberId);
+        allow update: if isFamilyMember(familyId) &&
+                         isValidMember(request.resource.data, familyId, memberId) &&
+                         areImmutableFieldsUnchanged(['id', 'familyId', 'createdAt']);
+        allow delete: if isFamilyParentOrGuardian(familyId);
+
+        // ===============================================================
+        // TIER 4: Individual Privacy Layer (Zero-Upward-Leak Private Journal)
+        // - Strictly owner-only read/write/delete (matching familyId & memberId).
+        // - Parents/guardians in the same family may ONLY read entries where
+        //   resource.data.isSharedWithParents == true.
+        // - Parents can NEVER read unshared entries or modify/delete entries.
+        // ===============================================================
+        match /private_journal/{entryId} {
+          allow read: if isJournalOwner(familyId, memberId) ||
+                         (isFamilyParentOrGuardian(familyId) &&
+                          resource.data.isSharedWithParents == true);
+          allow create: if isJournalOwner(familyId, memberId) &&
+                           isValidJournalEntry(request.resource.data, memberId, entryId);
+          allow update: if isJournalOwner(familyId, memberId) &&
+                           isValidJournalEntry(request.resource.data, memberId, entryId) &&
+                           areImmutableFieldsUnchanged(['id', 'memberId', 'createdAt']);
+          allow delete: if isJournalOwner(familyId, memberId);
+        }
+      }
+
+      // Family-Isolated Dining Table Notes
+      match /dining_notes/{noteId} {
+        allow read: if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+                         isValidDiningNote(request.resource.data, noteId);
+        allow update: if isFamilyMember(familyId) &&
+                         isValidDiningNote(request.resource.data, noteId) &&
+                         areImmutableFieldsUnchanged(['id', 'createdAt']);
+        allow delete: if isFamilyMember(familyId);
+      }
+
+      // Family Bonding Activities & Habits
+      match /activities/{activityId} {
+        allow read: if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+                         isValidActivity(request.resource.data, activityId);
+        allow update: if isFamilyMember(familyId) &&
+                         isValidActivity(request.resource.data, activityId) &&
+                         areImmutableFieldsUnchanged(['id', 'createdAt']);
+        allow delete: if isFamilyParentOrGuardian(familyId);
+      }
+
+      // Family Wish Goals
+      match /wish_goals/{goalId} {
+        allow read: if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+                         isValidWishGoal(request.resource.data, goalId);
+        allow update: if isFamilyMember(familyId) &&
+                         isValidWishGoal(request.resource.data, goalId) &&
+                         areImmutableFieldsUnchanged(['id', 'memberId', 'createdAt']);
+        allow delete: if isFamilyParentOrGuardian(familyId);
+      }
+
+      // Family Points & Stars Ledger (Append-Only Audit Trail)
+      match /ledger/{ledgerId} {
+        allow read: if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+                         isValidLedgerEntry(request.resource.data, ledgerId);
+        allow update, delete: if false;
+      }
+
+      // Family Routine Completion & Parent Approval Requests
+      match /routine_requests/{reqId} {
+        allow read: if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+                         isValidRoutineRequest(request.resource.data, reqId);
+        allow update: if isFamilyMember(familyId) &&
+                         isValidRoutineRequest(request.resource.data, reqId) &&
+                         areImmutableFieldsUnchanged([
+                           'id', 'memberId', 'routineId', 'requestedAt'
+                         ]);
+        allow delete: if isFamilyMember(familyId);
+      }
+
+      // Family Chat Messages (Append-Only)
+      match /messages/{msgId} {
+        allow read: if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+                         isValidChatMessage(request.resource.data, msgId);
+        allow update, delete: if false;
+      }
+
+      // Shared Family Calendar Events
+      match /calendar_events/{eventId} {
+        allow read: if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+                         isValidCalendarEvent(request.resource.data, eventId);
+        allow update: if (isFamilyParentOrGuardian(familyId) ||
+                          (isFamilyMember(familyId) && resource.data.createdById == getUserProfile().memberId)) &&
+                         isValidCalendarEvent(request.resource.data, eventId) &&
+                         areImmutableFieldsUnchanged(['id', 'createdById', 'createdAt']);
+        allow delete: if isFamilyParentOrGuardian(familyId) ||
+                         (isFamilyMember(familyId) && resource.data.createdById == getUserProfile().memberId);
+      }
+    }
+
+    // ===============================================================
+    // PARENT COMMUNITY LAYER: Cross-Family Parent Forum
+    // Restricted strictly to authenticated parents/guardians
+    // (owner, coparent, caregiver). Non-author parents may only update
+    // interaction fields (likes, replies, upvotedByIds, comments, updatedAt).
+    // ===============================================================
+
+    match /parent_community_posts/{postId} {
+      allow read: if isAuthenticatedParent();
+      allow create: if isAuthenticatedParent() &&
+                       isValidParentCommunityPost(request.resource.data, postId) &&
+                       (!('authorUid' in request.resource.data) ||
+                        request.resource.data.authorUid == request.auth.uid);
+      allow update: if isAuthenticatedParent() &&
+                       isValidParentCommunityPost(request.resource.data, postId) &&
+                       areImmutableFieldsUnchanged([
+                         'id', 'authorUid', 'authorId', 'createdAt'
+                       ]) &&
+                       (isCommunityPostAuthor(resource.data) ||
+                        request.resource.data.diff(resource.data).affectedKeys()
+                          .hasOnly(['likes', 'replies', 'upvotedByIds', 'comments', 'updatedAt']));
+      allow delete: if isAuthenticatedParent() &&
+                       isCommunityPostAuthor(resource.data);
+    }
+
+    // ===============================================================
+    // Default Deny Catch-All
+    // ===============================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
