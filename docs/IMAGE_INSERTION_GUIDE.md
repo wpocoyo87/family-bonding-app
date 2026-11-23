@@ -1,6 +1,7 @@
 # ERAT FYP — Step-by-Step Image & Diagram Insertion Guide
 
-> **Final Year Project (FYP):** Bachelor of Information Technology (Hons)  
+> **Final Year Project (FYP):** Bachelor of Science in Information Technology  
+> **Project Title:** ERAT: A Gamified Mobile Application for Family Bonding and Habit Formation  
 > **Student:** Khadijah Binti Kasiran (`B24070074`)  
 > **Supervisor:** Ms Nurulaini | **Dean/Coordinator:** Ms Sarmila Devi  
 > **Target Document:** [`ERAT_FYP_Full_Documentation.md`](../ERAT_FYP_Full_Documentation.md)
@@ -9,13 +10,13 @@
 
 ## 📌 Executive Summary
 
-Your FYP documentation now contains clear, standardized **Image Placeholder Boxes** for all **11 figures** and **9 tables**. To complete your report for final Word / PDF submission, you need to replace the placeholders with actual rendered images.
+Your FYP documentation now contains clear, standardized **Image Placeholder Boxes** and rendered visual links for all **13 figures** and **13 tables**. 
 
-The figures are divided into two straightforward groups:
-1. **Group A: 6 Diagrams & Flowcharts (Figures 1.1, 3.1, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6)**  
-   *Source:* Mermaid code is already provided in your document. You can render and export high-resolution PNGs in 10 seconds using [Mermaid Live Editor](https://mermaid.live).
+The figures are organized into two groups:
+1. **Group A: 8 Technical & UML Diagrams (Figures 1.1, 3.1, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6)**  
+   *Status:* **ALL 8 ARE ALREADY RENDERED AS HIGH-RES PNGs** and stored in your repository at [`docs/figures/`](./figures/)! You can view them directly, embed them in Word, or re-render them anytime using the Mermaid code provided.
 2. **Group B: 5 UI Screen Mockups (Figures 4.7, 4.8, 4.9, 4.10, 4.11)**  
-   *Source:* Run your Flutter app in **Demo Sandbox Mode** on your physical phone (or Android emulator) and take screenshots according to the step-by-step recipe below.
+   *Status:* Ready for you to capture from your physical phone (or Android emulator) running the app in **Demo Sandbox Mode** using the recipes below.
 
 ---
 
@@ -405,13 +406,25 @@ To capture these screenshots:
 
 ---
 
-## 📐 Formatting Rules for Your Final Submission (MUST Guidelines)
+## 📐 MUST Formatting Rules for Final Physical & Digital Submission
 
-When pasting into your final Microsoft Word or Google Docs file:
-1. **Font & Size:** Document body: **Times New Roman 12 pt**, 1.5 line spacing.
-2. **Margins:** **2.5 cm (1.0 inch)** on Left, Right, Top, and Bottom.
-3. **Captions Format:**
-   - **Tables:** Caption placed **ABOVE** the table, left-aligned or centered (e.g., `Table 3.1: Functional Requirements Traceability Matrix`).
-   - **Figures:** Caption placed **BELOW** the figure, centered, italicized (e.g., `Figure 4.9: Screen Layout: Gamified Milestone Trail with Focus Activity Repetitive Progress Banner`).
-4. **Image Alignment:** Always set image alignment to **Centered**, with **Wrap Text: In Line with Text** (to prevent images from shifting around when editing text).
-5. **Table of Contents Update:** After pasting all images, right-click your Word Table of Contents / List of Figures / List of Tables and click **"Update Entire Table"** to automatically refresh page numbers!
+When formatting your final Microsoft Word (.docx) or PDF document according to Malaysia University of Science and Technology (MUST) thesis guidelines:
+1. **Typography & Font:**
+   - Body Text: **Times New Roman 12 pt**.
+   - Chapter Headings: **Times New Roman 14 pt, Bold, UPPERCASE, Centered**.
+   - Section Headings (e.g. 1.1, 1.2): **Times New Roman 12 pt, Bold, Left-Aligned**.
+2. **Spacing:**
+   - **Single line spacing** within body paragraphs.
+   - **Double line spacing (one blank line)** between paragraphs.
+3. **Margins:**
+   - **Left Margin:** **3.8 cm (1.5 inches)** to accommodate comb or hard binding.
+   - **Right, Top, and Bottom Margins:** **2.5 cm (1.0 inch)**.
+4. **Captions & Placement:**
+   - **Tables:** Title placed at **TOP-LEFT** in **Bold** (e.g., **Table 3.1: Functional Requirements Traceability Matrix**).
+   - **Figures:** Title placed at **BOTTOM-LEFT** in **Bold** (e.g., **Figure 4.3: UML Activity Diagram: Child Routine Submission and Parent Verification Flow**).
+5. **Page Numbering:**
+   - Preliminary pages (Title page to Abbreviations): Lowercase Roman numerals (*i, ii, iii...*), centered **1.25 cm from the bottom of the page**.
+   - Main chapters (Chapter 1 to References & Appendices): Arabic numerals (*1, 2, 3...*), centered **1.25 cm from the bottom of the page**.
+6. **Hard Cover Binding (Final Submission):**
+   - Cover Color: **Maroon** (Dark Red).
+   - Lettering: **Gold embossed uppercase letters** (Project Title, Student Name, Degree, MUST, Year).

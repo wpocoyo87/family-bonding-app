@@ -566,6 +566,9 @@ class FamilySpace {
     this.photoPath,
   });
 
+  String familyGoalTitle(bool isMs) =>
+      isMs ? familyGoalTitleMs : familyGoalTitleEn;
+
   FamilySpace copyWith({
     String? name,
     String? inviteCode,

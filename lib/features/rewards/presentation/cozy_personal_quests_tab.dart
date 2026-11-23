@@ -1619,7 +1619,6 @@ class _CozyPersonalQuestsTabState extends ConsumerState<CozyPersonalQuestsTab> {
       );
     }
 
-    final isDemoFamily = appState.family.id == 'fam_erat_01';
     final firestoreBackedQuests = appState.activities
         .where((a) => !a.isPrivateNote && a.appliesToDate(_selectedDate))
         .map((a) => <String, dynamic>{

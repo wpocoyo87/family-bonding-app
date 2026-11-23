@@ -1,14 +1,14 @@
-# ERAT — Cross-Platform Family Bonding & Habit Gamification System
+# ERAT: A Gamified Mobile Application for Family Bonding and Habit Formation
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart&logoColor=white)](https://dart.dev)
-[![State Management](https://img.shields.io/badge/Riverpod-2.x-3B82F6)](https://riverpod.dev)
+[![State Management](https://img.shields.io/badge/Riverpod-2.6.1-3B82F6)](https://riverpod.dev)
 [![Backend](https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com)
 [![License](https://img.shields.io/badge/License-Academic%20%2F%20MIT-brightgreen.svg)](LICENSE)
-[![SUS Score](https://img.shields.io/badge/SUS%20Score-84.6%20(Grade%20A)-success)](#evaluation--usability)
+[![SUS Score](https://img.shields.io/badge/SUS%20Score-84.5%20(Grade%20A)-success)](#evaluation--usability)
 
 > **Academic Final Year Project (FYP)**  
-> **Degree Program:** Bachelor of Information Technology (Hons)  
+> **Degree Program:** Bachelor of Science in Information Technology  
 > **Student Name:** Khadijah Binti Kasiran (`B24070074`)  
 > **Supervisor:** Ms Nurulaini  
 > **Coordinator / Dean:** Ms Sarmila Devi  

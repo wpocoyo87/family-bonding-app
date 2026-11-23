@@ -290,33 +290,36 @@ class EratBrandLogo extends StatelessWidget {
                       size: size * 0.36,
                     ),
                     SizedBox(height: size * 0.03),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Erat',
-                          style: TextStyle(
-                            fontSize: size * 0.26,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                            letterSpacing: -0.4,
-                            height: 1.0,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Erat',
+                            style: TextStyle(
+                              fontSize: size * 0.26,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              letterSpacing: -0.4,
+                              height: 1.0,
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: size * 0.085,
-                          height: size * 0.085,
-                          margin: EdgeInsets.only(
-                            left: size * 0.025,
-                            bottom: size * 0.025,
+                          Container(
+                            width: size * 0.085,
+                            height: size * 0.085,
+                            margin: EdgeInsets.only(
+                              left: size * 0.025,
+                              bottom: size * 0.025,
+                            ),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFF6C343), // Warm honey gold dot
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFF6C343), // Warm honey gold dot
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
