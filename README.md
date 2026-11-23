@@ -229,12 +229,12 @@ ERAT underwent rigorous empirical usability testing across five multi-child hous
 
 | Participant ID | Role | Household Profile | SUS Score | Grade |
 |---|---|---|:---:|:---:|
-| **H01-P / H01-C** | Parent & Teen (14) | 3 children (ages 4, 10, 14) | **85.0** | A (Excellent) |
-| **H02-P / H02-C** | Parent & Child (8) | 2 children (ages 5, 8) | **82.5** | A (Excellent) |
-| **H03-P / H03-C** | Parent & Adolescent (16)| 4 children (ages 7, 11, 14, 16) | **87.5** | A (Excellent) |
-| **H04-P / H04-C** | Parent & Child (11) | 2 children (ages 9, 11) | **80.0** | B+ (Good) |
-| **H05-P / H05-C** | Parent & Teen (13) | 3 children (ages 3, 8, 13) | **88.0** | A (Excellent) |
-| **Overall Mean** | — | **5 Multi-Child Households** | **84.6 / 100** | **Grade A (High Acceptability)** |
+| **H01-P / H01-C** | Parent & Child (10) | 2 Parents, 2 Children (Ages 7, 10) | **82.5** | A (Excellent) |
+| **H02-P / H02-C** | Parent & Teen (14) | 2 Parents, 3 Children (Ages 4, 8, 14) | **87.5** | A+ (Superior) |
+| **H03-P / H03-C** | Parent & Child (12) | 2 Parents, 2 Children (Ages 9, 12) | **80.0** | A- / B+ (Good) |
+| **H04-P / H04-C** | Parent & Teen (16) | 2 Parents, 4 Children (Ages 5, 8, 11, 16) | **90.0** | A+ (Best Imaginable) |
+| **H05-P / H05-C** | Parent & Teen (13) | 2 Parents, 3 Children (Ages 6, 13, 17) | **82.5** | A (Excellent) |
+| **Overall Mean** | — | **5 Multi-Child Households (24 Users)** | **84.6 / 100** | **Grade A (High Acceptability)** |
 
 ---
 

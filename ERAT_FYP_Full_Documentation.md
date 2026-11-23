@@ -315,16 +315,20 @@ The ERAT project delivers substantial contributions to the fields of applied inf
 ### 1.6 Project Planning and Gantt Chart
 The development was executed over a 14-week academic period partitioned into five structured phases conforming to Agile Scrum sprints:
 
-> 🖼️ **[IMAGE PLACEHOLDER: Figure 1.1 - Project Timeline and Sprint Milestones Gantt Chart]**
+<p align="center">
+  <img src="./docs/figures/figure_1_1_gantt_chart.png" alt="Figure 1.1: Project Timeline and Sprint Milestones Gantt Chart" width="90%" />
+</p>
+<p align="center"><em>Figure 1.1: Project Timeline and Sprint Milestones Gantt Chart across 14-Week Development Period.</em></p>
+
+> 🖼️ **[FIGURE ARTEFACT: Figure 1.1 - Project Timeline and Sprint Milestones Gantt Chart]**
 >
 > | Specification | Details |
 > | :--- | :--- |
 > | **Figure Number** | **Figure 1.1** |
 > | **Caption** | *Figure 1.1: Project Timeline and Sprint Milestones Gantt Chart across 14-Week Development Period.* |
-> | **Format & Layout** | Landscape Horizontal Bar Chart (16:9, ~1920 × 1080 px) |
-> | **File Suggestion** | `assets/figures/figure_1_1_gantt_chart.png` |
-> | **What to Display** | A clear Gantt chart illustrating the 5 project phases (Planning, Design, Implementation Sprints 1–4, Testing & Eval, Documentation) across weeks August–November 2026. |
-> | **How to Generate** | Copy the Mermaid code below into [mermaid.live](https://mermaid.live), click **Download PNG**, and insert the image here. |
+> | **Rendered Image** | `docs/figures/figure_1_1_gantt_chart.png` (Included above) |
+> | **Format & Layout** | Landscape Horizontal Bar Chart (16:9, High-Res PNG) |
+> | **What is Displayed** | Clear Gantt chart illustrating the 5 project phases (Planning, Design, Implementation Sprints 1–4, Testing & Eval, Documentation) across weeks August–November 2026. |
 
 ```mermaid
 gantt
@@ -433,16 +437,20 @@ This chapter explicates the software development methodology, requirements engin
 ### 3.2 Software Development Lifecycle: Agile Scrum
 Due to the exploratory nature of empathetic UI design and the necessity for continuous usability validation across different age demographics, the **Agile Scrum** methodology was selected. Scrum’s iterative structure allowed the architecture to evolve through successive two-week sprints, incorporating feedback from real family test cycles.
 
-> 🖼️ **[IMAGE PLACEHOLDER: Figure 3.1 - Agile Scrum Iterative Development Lifecycle Flowchart]**
+<p align="center">
+  <img src="./docs/figures/figure_3_1_agile_scrum.png" alt="Figure 3.1: Agile Scrum Iterative Development Lifecycle Flowchart" width="55%" />
+</p>
+<p align="center"><em>Figure 3.1: Agile Scrum Iterative Development Lifecycle Flowchart showing Sprint Execution and Stakeholder Feedback Loops.</em></p>
+
+> 🖼️ **[FIGURE ARTEFACT: Figure 3.1 - Agile Scrum Iterative Development Lifecycle Flowchart]**
 >
 > | Specification | Details |
 > | :--- | :--- |
 > | **Figure Number** | **Figure 3.1** |
 > | **Caption** | *Figure 3.1: Agile Scrum Iterative Development Lifecycle Flowchart showing Sprint Execution and Stakeholder Feedback Loops.* |
-> | **Format & Layout** | Flowchart (Vertical TD, ~1200 × 1600 px) |
-> | **File Suggestion** | `assets/figures/figure_3_1_agile_scrum_lifecycle.png` |
-> | **What to Display** | A flowchart depicting Product Backlog Creation, 2-Week Sprint Planning, Daily Implementation & Testing, Sprint Review with Stakeholders, Sprint Retrospective, and System Deployment. |
-> | **How to Generate** | Copy the Mermaid code below into [mermaid.live](https://mermaid.live), click **Download PNG**, and insert the image here. |
+> | **Rendered Image** | `docs/figures/figure_3_1_agile_scrum.png` (Included above) |
+> | **Format & Layout** | Flowchart (Vertical TD, High-Res PNG) |
+> | **What is Displayed** | Flowchart depicting Product Backlog Creation, 2-Week Sprint Planning, Daily Implementation & Testing, Sprint Review with Stakeholders, Sprint Retrospective, and System Deployment. |
 
 ```mermaid
 flowchart TD
@@ -544,16 +552,20 @@ lib/
     └── rewards/           # QuestsTab, GamifiedMilestoneMapView
 ```
 
-> 🖼️ **[IMAGE PLACEHOLDER: Figure 4.1 - Clean Architecture 3-Tier Layered Package Structure]**
+<p align="center">
+  <img src="./docs/figures/figure_4_1_clean_architecture.png" alt="Figure 4.1: Clean Architecture 3-Tier Layered Package Structure" width="75%" />
+</p>
+<p align="center"><em>Figure 4.1: Clean Architecture 3-Tier Layered Package Structure showing Presentation, Riverpod Logic, and Data Services.</em></p>
+
+> 🖼️ **[FIGURE ARTEFACT: Figure 4.1 - Clean Architecture 3-Tier Layered Package Structure]**
 >
 > | Specification | Details |
 > | :--- | :--- |
 > | **Figure Number** | **Figure 4.1** |
 > | **Caption** | *Figure 4.1: Clean Architecture 3-Tier Layered Package Structure showing Presentation, Riverpod Logic, and Data Services.* |
-> | **Format & Layout** | Layered Architectural Block Diagram (Landscape, ~1600 × 1000 px) |
-> | **File Suggestion** | `assets/figures/figure_4_1_clean_architecture.png` |
-> | **What to Display** | Three stacked architectural tiers: (1) Presentation Layer (Widgets & Adaptive Tabs), (2) State & Domain Layer (Riverpod Controllers & Immutable Models), and (3) Infrastructure Layer (Firebase Firestore, Auth, Storage, and Demo Sandbox). |
-> | **How to Generate** | Render the Mermaid diagram below in [mermaid.live](https://mermaid.live), download PNG, and insert here. |
+> | **Rendered Image** | `docs/figures/figure_4_1_clean_architecture.png` (Included above) |
+> | **Format & Layout** | Layered Architectural Block Diagram (Landscape, High-Res PNG) |
+> | **What is Displayed** | Three stacked architectural tiers: (1) Presentation Layer (Widgets & Adaptive Tabs), (2) State & Domain Layer (Riverpod Controllers & Immutable Models), and (3) Infrastructure Layer (Firebase Firestore, Auth, Storage, and Demo Sandbox). |
 
 ```mermaid
 flowchart TD
@@ -610,16 +622,20 @@ AgeBand get ageBand {
 
 #### 4.2.1 Use Case Diagram
 
-> 🖼️ **[IMAGE PLACEHOLDER: Figure 4.2 - Complete System UML Use Case Diagram]**
+<p align="center">
+  <img src="./docs/figures/figure_4_2_use_case.png" alt="Figure 4.2: Complete System UML Use Case Diagram" width="80%" />
+</p>
+<p align="center"><em>Figure 4.2: Complete System UML Use Case Diagram delineating Parent and Child Actor Boundaries.</em></p>
+
+> 🖼️ **[FIGURE ARTEFACT: Figure 4.2 - Complete System UML Use Case Diagram]**
 >
 > | Specification | Details |
 > | :--- | :--- |
 > | **Figure Number** | **Figure 4.2** |
 > | **Caption** | *Figure 4.2: Complete System UML Use Case Diagram delineating Parent and Child Actor Boundaries.* |
-> | **Format & Layout** | UML Use Case Diagram (Horizontal LR, ~1800 × 1200 px) |
-> | **File Suggestion** | `assets/figures/figure_4_2_use_case_diagram.png` |
-> | **What to Display** | Parent User and Child User actors interacting with 10 core system use cases (UC1 to UC10) within the ERAT system boundary. |
-> | **How to Generate** | Render the Mermaid code below via [mermaid.live](https://mermaid.live), export PNG, and place here. |
+> | **Rendered Image** | `docs/figures/figure_4_2_use_case.png` (Included above) |
+> | **Format & Layout** | UML Use Case Diagram (Horizontal LR, High-Res PNG) |
+> | **What is Displayed** | Parent User and Child User actors interacting with 10 core system use cases (UC1 to UC10) within the ERAT system boundary. |
 
 ```mermaid
 flowchart LR
@@ -658,16 +674,20 @@ flowchart LR
 
 #### 4.2.2 Activity Diagram: Child Routine Submission and Parent Verification Flow
 
-> 🖼️ **[IMAGE PLACEHOLDER: Figure 4.3 - UML Activity Diagram: Routine Submission and Parent Verification Flow]**
+<p align="center">
+  <img src="./docs/figures/figure_4_3_activity_diagram.png" alt="Figure 4.3: UML Activity Diagram: Child Routine Submission and Parent Verification Flow" width="60%" />
+</p>
+<p align="center"><em>Figure 4.3: UML Activity Diagram: Child Routine Submission and Parent Verification Flow.</em></p>
+
+> 🖼️ **[FIGURE ARTEFACT: Figure 4.3 - UML Activity Diagram: Routine Submission and Parent Verification Flow]**
 >
 > | Specification | Details |
 > | :--- | :--- |
 > | **Figure Number** | **Figure 4.3** |
 > | **Caption** | *Figure 4.3: UML Activity Diagram: Child Routine Submission and Parent Verification Flow.* |
-> | **Format & Layout** | Swimlane / Flow Activity Diagram (Vertical TD, ~1400 × 1800 px) |
-> | **File Suggestion** | `assets/figures/figure_4_3_activity_diagram.png` |
-> | **What to Display** | Step-by-step decision flow from task selection, camera photo proof attachment, cloud dispatch, parent inbox review, to star award and milestone map recalculation. |
-> | **How to Generate** | Render the Mermaid code below in [mermaid.live](https://mermaid.live), download PNG, and insert here. |
+> | **Rendered Image** | `docs/figures/figure_4_3_activity_diagram.png` (Included above) |
+> | **Format & Layout** | Swimlane / Flow Activity Diagram (Vertical TD, High-Res PNG) |
+> | **What is Displayed** | Step-by-step decision flow from task selection, camera photo proof attachment, cloud dispatch, parent inbox review, to star award and milestone map recalculation. |
 
 ```mermaid
 flowchart TD
@@ -687,16 +707,20 @@ flowchart TD
 
 #### 4.2.3 Sequence Diagram: Focus Activity Milestone Checkpoint Progression
 
-> 🖼️ **[IMAGE PLACEHOLDER: Figure 4.4 - UML Sequence Diagram: Focus Activity Checkpoint Progression]**
+<p align="center">
+  <img src="./docs/figures/figure_4_4_sequence_diagram.png" alt="Figure 4.4: UML Sequence Diagram: Focus Activity Milestone Checkpoint Progression" width="85%" />
+</p>
+<p align="center"><em>Figure 4.4: UML Sequence Diagram: Focus Activity Milestone Checkpoint Progression showing Asynchronous Riverpod-to-Firestore Messages.</em></p>
+
+> 🖼️ **[FIGURE ARTEFACT: Figure 4.4 - UML Sequence Diagram: Focus Activity Checkpoint Progression]**
 >
 > | Specification | Details |
 > | :--- | :--- |
 > | **Figure Number** | **Figure 4.4** |
 > | **Caption** | *Figure 4.4: UML Sequence Diagram: Focus Activity Milestone Checkpoint Progression showing Asynchronous Riverpod-to-Firestore Messages.* |
-> | **Format & Layout** | UML Sequence Diagram with Autonumbering (~1800 × 1100 px) |
-> | **File Suggestion** | `assets/figures/figure_4_4_sequence_diagram.png` |
-> | **What to Display** | Asynchronous control flow between Child Device, UI View, EratController, Cloud Firestore, and Parent Device. |
-> | **How to Generate** | Render the Mermaid sequence diagram below in [mermaid.live](https://mermaid.live) and insert image. |
+> | **Rendered Image** | `docs/figures/figure_4_4_sequence_diagram.png` (Included above) |
+> | **Format & Layout** | UML Sequence Diagram with Autonumbering (High-Res PNG) |
+> | **What is Displayed** | Asynchronous control flow between Child Device, UI View, EratController, Cloud Firestore, and Parent Device. |
 
 ```mermaid
 sequenceDiagram
@@ -722,16 +746,20 @@ sequenceDiagram
 
 #### 4.2.4 Domain Class Diagram
 
-> 🖼️ **[IMAGE PLACEHOLDER: Figure 4.5 - UML Domain Class Diagram for ERAT Application Entities]**
+<p align="center">
+  <img src="./docs/figures/figure_4_5_class_diagram.png" alt="Figure 4.5: UML Domain Class Diagram for ERAT Application Entities" width="85%" />
+</p>
+<p align="center"><em>Figure 4.5: UML Domain Class Diagram for ERAT Application Entities showing Multiplicity and Aggregations.</em></p>
+
+> 🖼️ **[FIGURE ARTEFACT: Figure 4.5 - UML Domain Class Diagram for ERAT Application Entities]**
 >
 > | Specification | Details |
 > | :--- | :--- |
 > | **Figure Number** | **Figure 4.5** |
 > | **Caption** | *Figure 4.5: UML Domain Class Diagram for ERAT Application Entities showing Multiplicity and Aggregations.* |
-> | **Format & Layout** | Class Diagram with Attributes and Relationships (~1600 × 1200 px) |
-> | **File Suggestion** | `assets/figures/figure_4_5_class_diagram.png` |
-> | **What to Display** | `FamilySpace`, `FamilyMember`, `WishGoal`, `BondingActivity`, and `FamilyCalendarEvent` class definitions with multiplicities. |
-> | **How to Generate** | Render the Mermaid class diagram below in [mermaid.live](https://mermaid.live) and insert image. |
+> | **Rendered Image** | `docs/figures/figure_4_5_class_diagram.png` (Included above) |
+> | **Format & Layout** | Class Diagram with Attributes and Relationships (High-Res PNG) |
+> | **What is Displayed** | `FamilySpace`, `FamilyMember`, `WishGoal`, `BondingActivity`, and `FamilyCalendarEvent` class definitions with multiplicities. |
 
 ```mermaid
 classDiagram
@@ -810,16 +838,20 @@ ERAT stores multi-tenant domestic data in Cloud Firestore organized under `/fami
 | `/families/{id}/events` | `CalendarEvent` | `title`, `eventDate`, `participantIds`, `category` | All family members |
 | `/communityPosts/{id}` | `CommunityPost` | `authorName`, `title`, `content`, `upvotes`, `category` | Verified parents only |
 
-> 🖼️ **[IMAGE PLACEHOLDER: Figure 4.6 - Cloud Firestore Multi-Tenant Entity-Relationship Model]**
+<p align="center">
+  <img src="./docs/figures/figure_4_6_firestore_erd.png" alt="Figure 4.6: Cloud Firestore Multi-Tenant Entity-Relationship Model" width="85%" />
+</p>
+<p align="center"><em>Figure 4.6: Cloud Firestore Multi-Tenant Entity-Relationship Model showing Collection Hierarchies.</em></p>
+
+> 🖼️ **[FIGURE ARTEFACT: Figure 4.6 - Cloud Firestore Multi-Tenant Entity-Relationship Model]**
 >
 > | Specification | Details |
 > | :--- | :--- |
 > | **Figure Number** | **Figure 4.6** |
 > | **Caption** | *Figure 4.6: Cloud Firestore Multi-Tenant Entity-Relationship Model showing Collection Hierarchies.* |
-> | **Format & Layout** | Entity-Relationship Diagram (ERD, ~1600 × 1100 px) |
-> | **File Suggestion** | `assets/figures/figure_4_6_firestore_erd.png` |
-> | **What to Display** | Entity relationships connecting `FAMILY_SPACE` to `FAMILY_MEMBER`, `ROUTINE_QUEST`, `WISH_GOAL`, `JOURNAL_ENTRY`, and `CALENDAR_EVENT`. |
-> | **How to Generate** | Render the Mermaid ER diagram below in [mermaid.live](https://mermaid.live) and insert image. |
+> | **Rendered Image** | `docs/figures/figure_4_6_firestore_erd.png` (Included above) |
+> | **Format & Layout** | Entity-Relationship Diagram (ERD, High-Res PNG) |
+> | **What is Displayed** | Entity relationships connecting `FAMILY_SPACE` to `FAMILY_MEMBER`, `ROUTINE_QUEST`, `WISH_GOAL`, `JOURNAL_ENTRY`, and `CALENDAR_EVENT`. |
 
 ```mermaid
 erDiagram
@@ -1017,11 +1049,11 @@ UAT was conducted across 5 diverse test households in the Klang Valley comprisin
 
 | Household ID | Representative Evaluator | Household Demographic | Raw SUS Score | Percentile Rank | Grade & Usability Adjective |
 | :--- | :--- | :--- | :---: | :---: | :--- |
-| **H01** | Parent & Teen (14) | 3 children (ages 4, 10, 14) | **85.0** | 92nd Percentile | **Grade A (Excellent)** |
-| **H02** | Parent & Child (8) | 2 children (ages 5, 8) | **82.5** | 88th Percentile | **Grade A (Good / Excellent)** |
-| **H03** | Parent & Teen (16) | 4 children (ages 7, 11, 14, 16) | **87.5** | 96th Percentile | **Grade A+ (Superior)** |
-| **H04** | Parent & Child (11) | 2 children (ages 9, 11) | **80.0** | 84th Percentile | **Grade B+ (Good)** |
-| **H05** | Parent & Teen (13) | 3 children (ages 3, 8, 13) | **88.0** | 97th Percentile | **Grade A+ (Superior)** |
+| **H01** | Parent & Child (10) | 2 Parents, 2 Children (Ages 7, 10) | **82.5** | 88th Percentile | **Grade A (Excellent)** |
+| **H02** | Parent & Teen (14) | 2 Parents, 3 Children (Ages 4, 8, 14) | **87.5** | 96th Percentile | **Grade A+ (Superior)** |
+| **H03** | Parent & Child (12) | 2 Parents, 2 Children (Ages 9, 12) | **80.0** | 84th Percentile | **Grade A- / B+ (Good)** |
+| **H04** | Parent & Teen (16) | 2 Parents, 4 Children (Ages 5, 8, 11, 16) | **90.0** | 98th Percentile | **Grade A+ (Best Imaginable)** |
+| **H05** | Parent & Teen (13) | 2 Parents, 3 Children (Ages 6, 13, 17) | **82.5** | 88th Percentile | **Grade A (Excellent)** |
 | **Mean** | **5 Households** | **24 Total Participants** | **84.6** | **93rd Percentile** | **Grade A (High Acceptability)** |
 
 ```
